@@ -5,6 +5,7 @@
     transition: margin-left .28s;
     margin-left: $sideBarWidth;
     position: relative;
+    margin-top:90px;
   }
 
   .sidebar-container {
@@ -14,7 +15,7 @@
     height: 100%;
     position: fixed;
     font-size: 0px;
-    top: 0;
+    top: 90px;
     bottom: 0;
     left: 0;
     z-index: 1001;

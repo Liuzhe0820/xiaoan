@@ -1,9 +1,16 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <div class="logo"><img src="@/assets/logo/logo.png" alt=""></div>
+        <h3 class="title">小安居家后台管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,20 +48,25 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin"
+      >Login</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleIndex"
+      >index</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { login } from '@/api/login'
+import { index, login } from '@/api/login'
 export default {
   name: 'Login',
   data() {
@@ -75,11 +87,15 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       loading: false,
       passwordType: 'password',
@@ -105,14 +121,20 @@ export default {
         this.$refs.password.focus()
       })
     },
+    handleIndex() {
+      index({ a: 1, b: 2, c: 3, d: 4, e: 5 }).then((res) => {
+        console.log(res)
+      })
+    },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          login(this.loginForm).then(res=>{
+          login(this.loginForm).then((res) => {
             console.log(res)
           })
           // this.loading = true
           // this.$store.dispatch('user/login', this.loginForm).then(() => {
+          //   console.log(this.redirect)
           //   this.$router.push({ path: this.redirect || '/' })
           //   this.loading = false
           // }).catch(() => {
@@ -129,11 +151,20 @@ export default {
 </script>
 
 <style lang="scss">
+.logo{
+  width:200px;
+  height: 200px;
+  margin:20px auto;
+  img{
+    width:100%;
+    height:100%;
+  }
+}
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -176,9 +207,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;

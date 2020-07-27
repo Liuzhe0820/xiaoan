@@ -9,7 +9,7 @@ export function login(data) {
 }
 export function index(data) {
   return request({
-    url: 'admin/news/index',
+    url: '/admin/news/index',
     method: 'post',
     data
   })

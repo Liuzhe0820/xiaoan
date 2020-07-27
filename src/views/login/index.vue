@@ -9,8 +9,8 @@
       label-position="left"
     >
       <div class="title-container">
-        <div class="logo"><img src="@/assets/logo/logo.png" alt=""></div>
-        <h3 class="title">小安居家后台管理系统</h3>
+        <div class="logo none"><img src="@/assets/logo/logo.png" alt=""></div>
+        <h3 class="title none">小安居家后台管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -48,15 +48,6 @@
         </span>
       </el-form-item>
 
-      <<<<<<< HEAD
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleIndex">index</el-button>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
-      =======
       <el-button
         :loading="loading"
         type="primary"
@@ -69,14 +60,13 @@
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleIndex"
       >index</el-button>
-      >>>>>>> 9e0e83742cdd8a5f1f82fe53575e2b580fbfba21
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { index, login } from '@/api/login'
+import { index } from '@/api/login'
 export default {
   name: 'Login',
   data() {
@@ -139,17 +129,16 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          login(this.loginForm).then((res) => {
-            console.log(res)
-          })
-          // this.loading = true
-          // this.$store.dispatch('user/login', this.loginForm).then(() => {
-          //   console.log(this.redirect)
-          //   this.$router.push({ path: this.redirect || '/' })
-          //   this.loading = false
-          // }).catch(() => {
-          //   this.loading = false
+          // login(this.loginForm).then((res) => {
+          //   console.log(res)
           // })
+          this.loading = true
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+            this.$router.push({ path: '/' })
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -161,6 +150,9 @@ export default {
 </script>
 
 <style lang="scss">
+.none{
+  display: none;
+}
 .logo{
   width:200px;
   height: 200px;

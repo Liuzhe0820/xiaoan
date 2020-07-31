@@ -54,12 +54,12 @@
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
       >Login</el-button>
-      <el-button
+      <!-- <el-button
         :loading="loading"
         type="primary"
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleIndex"
-      >index</el-button>
+      >index</el-button> -->
     </el-form>
   </div>
 </template>
@@ -134,7 +134,7 @@ export default {
           // })
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: 'merchants' })
             this.loading = false
           }).catch(() => {
             this.loading = false

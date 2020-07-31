@@ -1,10 +1,10 @@
 <template>
   <div class="header">
     <div class="headItem">
-      <div class="logo">
+      <div class="logo none">
         <img src="@/assets/logo/logo.png" alt>
       </div>
-      <h3 class="title">小安居家后台管理系统</h3>
+      <h3 class="title none">小安居家后台管理系统</h3>
     </div>
     <div class="headItem">
       <el-button>退出</el-button>
@@ -19,6 +19,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.none{
+  display: none;
+}
 .header {
   width: 100%;
   height: 90px;

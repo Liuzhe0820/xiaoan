@@ -8,3 +8,17 @@ export function lists(data) {
     data
   })
 }
+export function examine(data) {
+  return request({
+    url: '/admin/examine',
+    method: 'post',
+    data
+  })
+}
+export function refuse(data) {
+  return request({
+    url: '/admin/refuse',
+    method: 'post',
+    data
+  })
+}

@@ -19,9 +19,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.none{
-  display: none;
-}
+// .none{
+//   display: none;
+// }
 .header {
   width: 100%;
   height: 90px;

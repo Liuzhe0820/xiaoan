@@ -36,7 +36,6 @@ export default {
       return data
     },
     lzFn(node, resolve) {
-      console.log(node)
       // if (node.children.length === 0) {
       //   const nodes = {
       //     label: node.label,

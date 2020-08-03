@@ -134,7 +134,7 @@ export default {
           // })
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: 'merchants' })
+            this.$router.push({ path: 'merchants/examine' })
             this.loading = false
           }).catch(() => {
             this.loading = false
@@ -150,9 +150,9 @@ export default {
 </script>
 
 <style lang="scss">
-.none{
-  display: none;
-}
+// .none{
+//   display: none;
+// }
 .logo{
   width:200px;
   height: 200px;

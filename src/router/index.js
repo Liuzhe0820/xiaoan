@@ -36,7 +36,6 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -53,6 +52,26 @@ export const constantRoutes = [
         name: '商户审核',
         component: () => import('@/views/merchants/examine'),
         meta: { title: '商户审核', icon: 'el-icon-s-goods' }
+      },
+      {
+        path: 'administration',
+        name: '商户管理',
+        component: () => import('@/views/merchants/administration'),
+        meta: { title: '商户管理', icon: 'el-icon-message-solid' }
+      }
+    ]
+  },
+  {
+    path: '/property',
+    component: Layout,
+    name: '物业管理',
+    meta: { title: '物业管理', icon: 'el-icon-s-goods' },
+    children: [
+      {
+        path: 'propertyAdministration',
+        name: '物业管理',
+        component: () => import('@/views/merchants/examine'),
+        meta: { title: '物业管理', icon: 'el-icon-s-goods' }
       },
       {
         path: 'administration',

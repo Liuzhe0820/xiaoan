@@ -135,7 +135,6 @@ export default {
         type: 'warning'
       }).then(() => {
         examine({ id: id }).then(res => {
-          console.log(res)
           if (res.status === 1) {
             this.$message({
               type: 'success',

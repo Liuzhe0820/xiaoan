@@ -1,10 +1,9 @@
 <template>
   <div class="dashboard-container">
-    <el-form :model="serchForm" :inline="true">
-      <el-form-item label="用户名称">
-        <el-input v-model="serchForm.name" />
+    <el-form :inline="true">
+      <el-form-item>
+        <el-button size="mini" type="primary" @click="addHandle">添加</el-button>
       </el-form-item>
-      <el-button>查询</el-button>
     </el-form>
     <div>
       <el-table
@@ -16,17 +15,11 @@
         stripe
       >
         <el-table-column type="index" label="序号" align="center" width="50" />
-        <el-table-column label="用户名称" align="center" prop="user_name" />
-        <el-table-column label="创建时间" align="center" prop="create_tim" />
         <el-table-column label="身份" align="center">
           <template slot-scope="props">{{ judgeRoletype(props.row.roletype) }}</template>
         </el-table-column>
-        <el-table-column label="角色名称" align="center" prop="rolename" />
-        <el-table-column label="操作" align="center" width="150">
-          <template slot-scope="props">
-            <el-button class="btn" size="mini" type="primary" @click="bindHandle(props.row.user_id)">绑定角色</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column label="名称" align="center" prop="name" />
+
       </el-table>
       <el-pagination
         :current-page="pagination.page"
@@ -38,27 +31,28 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog :visible.sync="bindOnoff" title="绑定角色">
-      <el-form>
-        <el-form-item>
-          <el-select v-model="roletypeId">
-            <el-option v-for="item in prorolelist" :key="item.id" :label="item.name" :value="item.id" />
+    <el-dialog :visible.sync="addOnoff" title="添加角色" @close="clearAdd">
+      <el-form ref="addForm" :model="addForm" :rules="addFormRule">
+        <el-form-item prop="roletype">
+          <el-select v-model="addForm.roletype">
+            <el-option v-for="item in roletypeList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
+        </el-form-item>
+        <el-form-item prop="name" label="名称">
+          <el-input v-model="addForm.name" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="clearBind">取 消</el-button>
-        <el-button type="primary" @click="sureBind">确 定</el-button>
+        <el-button @click="clearAdd">取 消</el-button>
+        <el-button type="primary" @click="sureAdd('addForm')">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-// 物业
-import { userlists, prorolelists, adduserrole } from '@/api/property'
+import { prorolelists, addrole } from '@/api/property'
 export default {
-  name: 'PropertyAdministration',
   data() {
     return {
       tableData: [],
@@ -68,19 +62,34 @@ export default {
         total: 0 // 数据总条数
       },
       tableHeight: 0,
-      serchForm: {
-        name: ''
+      addForm: {
+        name: '',
+        roletype: 1
       },
-      prorolelist: [],
-      id: '',
-      roletypeId: '',
-      bindOnoff: false
+      addFormRule: {
+        name: [
+          { required: true, message: '请输入名称', trigger: 'blur' }
+        ],
+        roletype: [
+          { required: true, message: '请选择角色', trigger: 'change' }
+        ]
+      },
+      roletypeList: [
+        {
+          value: 1,
+          label: '物业主管'
+        },
+        {
+          value: 2,
+          label: '物业人员'
+        }
+      ],
+      addOnoff: false
     }
   },
   created() {
     this.getList()
     this._getTableHeight()
-    this.getProrolelists()
   },
   mounted() {
     window.onresize = () => {
@@ -94,42 +103,37 @@ export default {
     }
   },
   methods: {
-    sureBind() {
-      if (this.roletypeId === '') {
-        this.$message.error('请选择绑定角色')
-      } else {
-        const data = {
-          user_id: this.id,
-          id: this.roletypeId
-        }
-        adduserrole(data).then(res => {
-          console.log(res)
-        })
-      }
-    },
-    clearBind() {
-      this.id = ''
-      this.bindOnoff = false
-    },
-    bindHandle(id) {
-      this.id = id
-      this.bindOnoff = true
-    },
-    getProrolelists() {
-      prorolelists().then(res => {
-        if (res.status === 1) {
-          this.prorolelist = res.data
+    sureAdd(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          addrole(this.addForm).then(res => {
+            if (res.status === 1) {
+              this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+              this.addOnoff = false
+              this.getList()
+            }
+          })
         } else {
-          this.$message.error(res.message)
+          this.$message.error('请填写完整信息')
         }
       })
     },
+    clearAdd() {
+      this.addForm.name = ''
+      this.addForm.roletype = 1
+    },
+    addHandle() {
+      this.addOnoff = true
+    },
     getList() { // 获取列表
-      const params = { ...this.pagination, ...this.serchForm }
-      userlists(params).then(res => {
+      const params = { ...this.pagination }
+      prorolelists(params).then(res => {
         console.log(res)
         if (res.status === 1) {
-          this.tableData = res.data.datas
+          this.tableData = res.data
           this.pagination.total = res.data.listscount
         } else {
           this.$message.error(res.message)

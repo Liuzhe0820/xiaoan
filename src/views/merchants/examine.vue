@@ -9,7 +9,6 @@
     <div>
       <el-table
         ref="table"
-        v-loading="tableLoading"
         :data="tableData"
         :height="tableHeight"
         highlight-current-row
@@ -69,7 +68,6 @@ export default {
       serchForm: {},
       tableData: [],
       tableHeight: 0,
-      tableLoading: false,
       pagination: { // 分页
         page: 1, // 当前页码
         pageSize: 10, // 每页条数

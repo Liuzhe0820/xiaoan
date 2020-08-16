@@ -70,14 +70,14 @@ export const constantRoutes = [
       {
         path: 'propertyAdministration',
         name: '物业管理',
-        component: () => import('@/views/merchants/examine'),
+        component: () => import('@/views/property/propertyAdministration'),
         meta: { title: '物业管理', icon: 'el-icon-s-goods' }
       },
       {
-        path: 'administration',
-        name: '商户管理',
-        component: () => import('@/views/merchants/administration'),
-        meta: { title: '商户管理', icon: 'el-icon-message-solid' }
+        path: 'roleManagement',
+        name: '角色管理',
+        component: () => import('@/views/property/roleManagement'),
+        meta: { title: '角色管理', icon: 'el-icon-s-goods' }
       }
     ]
   },

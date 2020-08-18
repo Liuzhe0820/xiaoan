@@ -103,7 +103,17 @@ export default {
           id: this.roletypeId
         }
         adduserrole(data).then(res => {
-          console.log(res)
+          if (res.status === 1) {
+            this.$message({
+              type: 'success',
+              message: '绑定成功'
+            })
+            this.clearBind()
+            this.getList()
+          } else {
+            this.$message.error(res.message)
+            this.clearBind()
+          }
         })
       }
     },
@@ -115,7 +125,7 @@ export default {
       this.id = id
       this.bindOnoff = true
     },
-    getProrolelists() {
+    getProrolelists() { // 获取角色列表
       prorolelists().then(res => {
         if (res.status === 1) {
           this.prorolelist = res.data

@@ -52,12 +52,6 @@ export const constantRoutes = [
         name: '商户审核',
         component: () => import('@/views/merchants/examine'),
         meta: { title: '商户审核', icon: 'el-icon-s-goods' }
-      },
-      {
-        path: 'administration',
-        name: '商户管理',
-        component: () => import('@/views/merchants/administration'),
-        meta: { title: '商户管理', icon: 'el-icon-message-solid' }
       }
     ]
   },
@@ -78,6 +72,20 @@ export const constantRoutes = [
         name: '角色管理',
         component: () => import('@/views/property/roleManagement'),
         meta: { title: '角色管理', icon: 'el-icon-s-goods' }
+      }
+    ]
+  },
+  {
+    path: '/hot',
+    component: Layout,
+    name: '热点管理',
+    meta: { title: '热点管理', icon: 'el-icon-s-goods' },
+    children: [
+      {
+        path: '/hot',
+        name: '热点管理',
+        component: () => import('@/views/hotList/hotList'),
+        meta: { title: '热点管理', icon: 'el-icon-s-goods' }
       }
     ]
   },

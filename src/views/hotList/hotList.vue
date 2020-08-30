@@ -15,11 +15,8 @@
         stripe
       >
         <el-table-column type="index" label="序号" align="center" width="50" />
-        <el-table-column label="身份" align="center">
-          <template slot-scope="props">{{ judgeRoletype(props.row.roletype) }}</template>
-        </el-table-column>
-        <el-table-column label="名称" align="center" prop="name" />
-
+        <el-table-column label="创建时间" align="center" prop="create_time" />
+        <el-table-column label="内容" align="center" prop="hotspot_text" />
       </el-table>
       <el-pagination
         :current-page="pagination.page"
@@ -33,13 +30,8 @@
     </div>
     <el-dialog :visible.sync="addOnoff" title="添加角色" @close="clearAdd">
       <el-form ref="addForm" :model="addForm" :rules="addFormRule">
-        <el-form-item prop="roletype">
-          <el-select v-model="addForm.roletype">
-            <el-option v-for="item in roletypeList" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="name" label="名称">
-          <el-input v-model="addForm.name" />
+        <el-form-item prop="hotspot_text" label="内容">
+          <el-input v-model="addForm.hotspot_text" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -51,7 +43,7 @@
 </template>
 
 <script>
-import { prorolelists, addrole } from '@/api/property'
+import { listshotspot, addhotspot } from '@/api/hotList'
 export default {
   data() {
     return {
@@ -63,32 +55,16 @@ export default {
       },
       tableHeight: 0,
       addForm: {
-        name: '',
-        roletype: 1
+        hotspot_text: ''
       },
+      addOnoff: false,
       addFormRule: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'blur' }
-        ],
-        roletype: [
-          { required: true, message: '请选择角色', trigger: 'change' }
-        ]
-      },
-      roletypeList: [
-        {
-          value: 1,
-          label: '物业主管'
-        },
-        {
-          value: 2,
-          label: '物业人员'
-        }
-      ],
-      addOnoff: false
+        hotspot_text: [{ required: true, message: '请输入内容', trigger: 'blur' }]
+      }
     }
   },
   created() {
-    this.getList()
+    this.getHotList()
     this._getTableHeight()
   },
   mounted() {
@@ -106,14 +82,14 @@ export default {
     sureAdd(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          addrole(this.addForm).then(res => {
+          addhotspot(this.addForm).then(res => {
             if (res.status === 1) {
               this.$message({
                 type: 'success',
                 message: '添加成功'
               })
               this.addOnoff = false
-              this.getList()
+              this.getHotList()
             }
           })
         } else {
@@ -122,32 +98,22 @@ export default {
       })
     },
     clearAdd() {
-      this.addForm.name = ''
-      this.addForm.roletype = 1
+      this.addForm.hotspot_text = ''
     },
     addHandle() {
       this.addOnoff = true
     },
-    getList() { // 获取列表
-      const params = { ...this.pagination }
-      prorolelists(params).then(res => {
+    getHotList() { // 获取列表
+      // const params = { ...this.pagination }
+      listshotspot().then(res => {
         console.log(res)
         if (res.status === 1) {
-          this.tableData = res.data
+          this.tableData = res.data.datas
           this.pagination.total = res.data.listscount
         } else {
           this.$message.error(res.message)
         }
       })
-    },
-    judgeRoletype(type) { // 判断身份
-      if (type === 0) {
-        return '暂无身份'
-      } else if (type === 1) {
-        return '物业主管'
-      } else if (type === 2) {
-        return '物业人员'
-      }
     },
     handleSizeChange(size) {
       this.pagination.page = 1
@@ -156,7 +122,7 @@ export default {
     // 改变页码
     handleCurrentChange(page) {
       this.pagination.page = page
-      this.getList()
+      this.getHotList()
     }
   }
 }

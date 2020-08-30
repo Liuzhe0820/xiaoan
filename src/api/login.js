@@ -14,3 +14,10 @@ export function index(data) {
     data
   })
 }
+export function logout(data) {
+  return request({
+    url: 'admin/logout',
+    method: 'post',
+    data
+  })
+}

@@ -82,7 +82,7 @@ export const constantRoutes = [
     meta: { title: '热点管理', icon: 'el-icon-s-goods' },
     children: [
       {
-        path: '/hot',
+        path: '/hotList',
         name: '热点管理',
         component: () => import('@/views/hotList/hotList'),
         meta: { title: '热点管理', icon: 'el-icon-s-goods' }

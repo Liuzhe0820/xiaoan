@@ -2,9 +2,9 @@
   <div class="dashboard-container">
     <el-form :model="serchForm" :inline="true">
       <el-form-item label="商户名称">
-        <el-input />
+        <el-input v-model="serchForm.name" />
       </el-form-item>
-      <el-button>查询</el-button>
+      <el-button @click="serchHandle">查询</el-button>
     </el-form>
     <div>
       <el-table
@@ -65,7 +65,9 @@ import { lists, examine, refuse } from '@/api/merchants'
 export default {
   data() {
     return {
-      serchForm: {},
+      serchForm: {
+        name: ''
+      },
       tableData: [],
       tableHeight: 0,
       pagination: { // 分页
@@ -103,6 +105,9 @@ export default {
     }
   },
   methods: {
+    serchHandle() {
+      this.getList()
+    },
     sureReason() { // 拒绝
       refuse({ id: this.id, refuse_text: this.reason.refuse }).then(res => {
         if (res.status === 1) {
@@ -166,7 +171,7 @@ export default {
       }
     },
     getList() { // 获取列表
-      const params = this.pagination
+      const params = { ...this.pagination, ...this.serchForm }
       lists(params).then(res => {
         console.log(res)
         if (res.status === 1) {

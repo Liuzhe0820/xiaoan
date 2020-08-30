@@ -7,14 +7,33 @@
       <h3 class="title none">小安居家后台管理系统</h3>
     </div>
     <div class="headItem">
-      <el-button>退出</el-button>
+      <el-button @click="logoutHandle">退出</el-button>
     </div>
   </div>
 </template>
 
 <script>
+// import { logout } from '@/api/login'
 export default {
-  name: 'PublicHeader'
+  name: 'PublicHeader',
+  methods: {
+    logoutHandle() {
+      this.$confirm('是否退出', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('user/logout').then(() => {
+          this.$router.push({ path: 'login' })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    }
+  }
 }
 </script>
 

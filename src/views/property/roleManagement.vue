@@ -82,6 +82,10 @@ export default {
         {
           value: 2,
           label: '物业人员'
+        },
+        {
+          value: 3,
+          label: '维修工'
         }
       ],
       addOnoff: false

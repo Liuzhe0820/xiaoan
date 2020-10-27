@@ -4,7 +4,12 @@
       <el-form-item label="用户名称">
         <el-input v-model="serchForm.name" />
       </el-form-item>
-      <el-button>查询</el-button>
+      <el-form-item label="身份">
+        <el-select v-model="serchForm.roletype">
+          <el-option v-for="item in roletypeList" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </el-form-item>
+      <el-button @click="serchHandle">查询</el-button>
     </el-form>
     <div>
       <el-table
@@ -69,12 +74,27 @@ export default {
       },
       tableHeight: 0,
       serchForm: {
-        name: ''
+        name: '',
+        roletype: ''
       },
       prorolelist: [],
       id: '',
       roletypeId: '',
-      bindOnoff: false
+      bindOnoff: false,
+      roletypeList: [
+        {
+          value: 1,
+          label: '物业主管'
+        },
+        {
+          value: 2,
+          label: '物业人员'
+        },
+        {
+          value: 3,
+          label: '维修工'
+        }
+      ]
     }
   },
   created() {
@@ -94,6 +114,10 @@ export default {
     }
   },
   methods: {
+    serchHandle() {
+      this.pagination.page = 1
+      this.getList()
+    },
     sureBind() {
       if (this.roletypeId === '') {
         this.$message.error('请选择绑定角色')

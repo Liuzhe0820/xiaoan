@@ -22,3 +22,17 @@ export function refuse(data) {
     data
   })
 }
+export function orderlistss(data) { // 订单列表
+  return request({
+    url: '/admin/orderlistss',
+    method: 'post',
+    data
+  })
+}
+export function deletecorder(data) { // 订单删除
+  return request({
+    url: '/admin/deletecorder',
+    method: 'post',
+    data
+  })
+}

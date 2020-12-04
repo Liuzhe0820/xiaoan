@@ -52,6 +52,13 @@ export const constantRoutes = [
         name: '商户审核',
         component: () => import('@/views/merchants/examine'),
         meta: { title: '商户审核', icon: 'el-icon-s-goods' }
+      },
+      {
+        path: 'examineOrder',
+        name: '商户订单',
+        component: () => import('@/views/merchants/order'),
+        hidden: true,
+        meta: { title: '商户订单', icon: 'el-icon-s-goods' }
       }
     ]
   },

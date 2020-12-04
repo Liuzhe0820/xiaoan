@@ -4,11 +4,11 @@
       <el-form-item label="用户名称">
         <el-input v-model="serchForm.name" />
       </el-form-item>
-      <el-form-item label="身份">
-        <el-select v-model="serchForm.roletype">
+      <!-- <el-form-item label="身份">
+        <el-select v-model="serchForm.roletype" clearable>
           <el-option v-for="item in roletypeList" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-button @click="serchHandle">查询</el-button>
     </el-form>
     <div>
@@ -177,6 +177,8 @@ export default {
         return '物业主管'
       } else if (type === 2) {
         return '物业人员'
+      } else if (type === 3) {
+        return '维修工'
       }
     },
     handleSizeChange(size) {

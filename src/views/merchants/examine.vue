@@ -25,6 +25,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="150">
           <template slot-scope="props">
+            <el-button class="btn" size="mini" type="primary" @click="toOiderPage(props.row.id)">订单</el-button>
             <el-button v-if="props.row.examine===2" class="btn" size="mini" type="primary" @click="examineHandle(props.row.id)">审核</el-button>
             <el-button class="btn" size="mini" type="primary" @click="seePictureHadnle(props.row)">查看图片</el-button>
             <el-button v-if="props.row.examine===3" class="btn" size="mini" type="primary" @click="seeReasonHandle(props.row)">拒绝理由</el-button>
@@ -105,6 +106,10 @@ export default {
     }
   },
   methods: {
+    toOiderPage(id) {
+      console.log(id)
+      this.$router.push({ path: '/merchants/examineOrder', query: { shopId: id }})
+    },
     serchHandle() {
       this.getList()
     },
